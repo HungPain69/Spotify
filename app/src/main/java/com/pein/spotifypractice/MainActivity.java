@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.tabs.TabLayout;
+import com.pein.spotifypractice.databinding.ActivityMainBinding;
 import com.pein.spotifypractice.fragment.AlbumListFragment;
 import com.pein.spotifypractice.fragment.ArtistFragment;
 import com.pein.spotifypractice.fragment.PlaylistFragment;
@@ -20,13 +21,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private TabLayout mTablayout;
+    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
         handleView();
     }
 
@@ -34,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mViewPager = findViewById(R.id.viewpager);
-        mTablayout = findViewById(R.id.tablayout);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager = mBinding.viewpager;
+        mTablayout = mBinding.tablayout;
+        mBinding.viewpager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
         mTablayout.setupWithViewPager(mViewPager);
 
