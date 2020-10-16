@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 
     defaultConfig {
         applicationId "com.pein.spotifypractice"
@@ -20,13 +24,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding true
     }
+
+
 }
 
+
 def roomVersion = '2.2.1'
-def  archLifecycleVersion = '2.2.0'
+def archLifecycleVersion = '2.2.0'
 def coreTestingVersion = '2.1.0'
 def materialVersion = '1.0.0'
 
@@ -54,5 +61,7 @@ dependencies {
 
     // Testing
     androidTestImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.6'
 
 }

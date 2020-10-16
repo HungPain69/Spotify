@@ -21,7 +21,6 @@ public class SongPlayerFragment extends MusicFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.panel_player_interface, container, false);
-
         return rootView;
     }
 }

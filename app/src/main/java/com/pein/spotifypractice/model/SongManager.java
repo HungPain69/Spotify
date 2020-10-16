@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SongManager {
-    public static List<Song> getFileFromStorage(Context context){
+    public static List<Song> getFileFromStorage(Context context) {
 
         List<Song> listSong = new ArrayList<>();
         final Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -21,7 +21,7 @@ public class SongManager {
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.ALBUM_ID
         };
-        Cursor audioCursor = context.getContentResolver().query(uri, proj, null, null,null);
+        Cursor audioCursor = context.getContentResolver().query(uri, proj, null, null, null);
         if (audioCursor != null) {
             if (audioCursor.moveToFirst()) {
                 do {
@@ -38,8 +38,7 @@ public class SongManager {
                     object.setDuration((audioCursor.getString(duration)));
                     object.setArtist(audioCursor.getString(artist));
                     object.setAlbum(audioCursor.getString(album));
-//                    info.setId(audioCursor.getLong(song_id));
-//                    info.setAlbum_art((ContentUris.withAppendedId(albumArtUri, audioCursor.getLong(audioalbumid))).toString());
+
                     listSong.add(object);
                 } while (audioCursor.moveToNext());
             }
@@ -47,5 +46,7 @@ public class SongManager {
         audioCursor.close();
 
         return listSong;
-    };
+    }
+
+    ;
 }

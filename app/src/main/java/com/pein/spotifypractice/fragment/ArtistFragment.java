@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.pein.spotifypractice.R;
 
-public class ArtistFragment extends MusicFragment{
+public class ArtistFragment extends MusicFragment {
 
     @Nullable
     @Override

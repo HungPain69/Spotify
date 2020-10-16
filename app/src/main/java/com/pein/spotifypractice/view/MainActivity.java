@@ -1,15 +1,20 @@
-package com.pein.spotifypractice;
+package com.pein.spotifypractice.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-
+import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.pein.spotifypractice.R;
 import com.pein.spotifypractice.databinding.ActivityMainBinding;
 import com.pein.spotifypractice.fragment.AlbumListFragment;
 import com.pein.spotifypractice.fragment.ArtistFragment;
@@ -22,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTablayout;
     private ActivityMainBinding mBinding;
+    public String hasPermission = "false";
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor mEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +39,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         handleView();
+        requestPermission();
+
+        sharedPreferences = getSharedPreferences("Spotify_reference", Context.MODE_PRIVATE);
+        mEditor = sharedPreferences.edit();
+        mEditor.putBoolean("hasPermission", true);
     }
 
-    private void handleView(){
+    private void handleView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
         mTablayout.setupWithViewPager(mViewPager);
 
         Fragment songPlayerFragment = getSupportFragmentManager().findFragmentById(R.id.main_content);
-        if(songPlayerFragment == null){
+        if (songPlayerFragment == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.main_content, new SongPlayerFragment());
-        }else {
+        } else {
 
         }
     }
 
-    private void setupViewPager(ViewPager viewPager){
-        SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager(),0);
+    private void setupViewPager(ViewPager viewPager) {
+        SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager(), 0);
         SongListFragment songListFragment = new SongListFragment();
         AlbumListFragment albumListFragment = new AlbumListFragment();
         ArtistFragment artistFragment = new ArtistFragment();
@@ -64,4 +78,21 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                mEditor.putBoolean(hasPermission, false).commit();
+                break;
+        }
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(MainActivity.this
+                , new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
+                        , Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+    }
+
 }
